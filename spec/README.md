@@ -2,7 +2,7 @@
 
 This document specifies version 2 of the [Web Application Messaging Protocol (WAMP)](http://wamp.ws/).
 
-Document Revision: **draft-1**, 2014/01/20
+Document Revision: **draft-2**, 2014/01/20
 
 
 **Contents**
@@ -378,103 +378,103 @@ WAMP defines the following messages which are explained in detail in the followi
 
 #### `HELLO`
 
-    [HELLO, Session|id, Details|dict]
+    [HELLO, Session|id, Realm|uri, Details|dict]
 
 #### `GOODBYE`
 
-    [GOODBYE, Details|dict]
+    [GOODBYE, Session|id, Details|dict]
 
 #### `HEARTBEAT`
 
-    [HEARTBEAT, IncomingSeq|integer, OutgoingSeq|integer
-    [HEARTBEAT, IncomingSeq|integer, OutgoingSeq|integer, Discard|string]
+    [HEARTBEAT, Session|id, IncomingSeq|integer, OutgoingSeq|integer
+    [HEARTBEAT, Session|id, IncomingSeq|integer, OutgoingSeq|integer, Discard|string]
 
 #### `ERROR`
 
-    [ERROR, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri]
-    [ERROR, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri, Arguments|list]
-    [ERROR, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri, Arguments|list, ArgumentsKw|dict]
+    [ERROR, Session|id, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri]
+    [ERROR, Session|id, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri, Arguments|list]
+    [ERROR, Session|id, REQUEST.Type|int, REQUEST.Request|id, Details|dict, Error|uri, Arguments|list, ArgumentsKw|dict]
 
 #### `PUBLISH`
 
-    [PUBLISH, Request|id, Options|dict, Topic|uri]
-    [PUBLISH, Request|id, Options|dict, Topic|uri, Arguments|list]
-    [PUBLISH, Request|id, Options|dict, Topic|uri, Arguments|list, ArgumentsKw|dict]
+    [PUBLISH, Session|id, Request|id, Options|dict, Topic|uri]
+    [PUBLISH, Session|id, Request|id, Options|dict, Topic|uri, Arguments|list]
+    [PUBLISH, Session|id, Request|id, Options|dict, Topic|uri, Arguments|list, ArgumentsKw|dict]
 
 #### `PUBLISHED`
 
-    [PUBLISHED, PUBLISH.Request|id, Publication|id]
+    [PUBLISHED, Session|id, PUBLISH.Request|id, Publication|id]
 
 #### `SUBSCRIBE`
 
-    [SUBSCRIBE, Request|id, Options|dict, Topic|uri]
+    [SUBSCRIBE, Session|id, Request|id, Options|dict, Topic|uri]
 
 #### `SUBSCRIBED`
 
-    [SUBSCRIBED, SUBSCRIBE.Request|id, Subscription|id]
+    [SUBSCRIBED, Session|id, SUBSCRIBE.Request|id, Subscription|id]
 
 #### `UNSUBSCRIBE`
 
-    [UNSUBSCRIBE, Request|id, SUBSCRIBED.Subscription|id]
+    [UNSUBSCRIBE, Session|id, Request|id, SUBSCRIBED.Subscription|id]
 
 #### `UNSUBSCRIBED`
 
-    [UNSUBSCRIBED, UNSUBSCRIBE.Request|id]
+    [UNSUBSCRIBED, Session|id, UNSUBSCRIBE.Request|id]
 
 #### `EVENT`
 
-    [EVENT, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict]
-    [EVENT, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict, PUBLISH.Arguments|list]
-    [EVENT, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict, PUBLISH.Arguments|list,
+    [EVENT, Session|id, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict]
+    [EVENT, Session|id, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict, PUBLISH.Arguments|list]
+    [EVENT, Session|id, SUBSCRIBED.Subscription|id, PUBLISHED.Publication|id, Details|dict, PUBLISH.Arguments|list,
 		PUBLISH.ArgumentsKw|dict]
 
 #### `CALL`
 
-    [CALL, Request|id, Options|dict, Procedure|uri]
-    [CALL, Request|id, Options|dict, Procedure|uri, Arguments|list]
-    [CALL, Request|id, Options|dict, Procedure|uri, Arguments|list, ArgumentsKw|dict]
+    [CALL, Session|id, Request|id, Options|dict, Procedure|uri]
+    [CALL, Session|id, Request|id, Options|dict, Procedure|uri, Arguments|list]
+    [CALL, Session|id, Request|id, Options|dict, Procedure|uri, Arguments|list, ArgumentsKw|dict]
 
 #### `RESULT`
 
-    [RESULT, CALL.Request|id, Details|dict]
-    [RESULT, CALL.Request|id, Details|dict, YIELD.Arguments|list]
-    [RESULT, CALL.Request|id, Details|dict, YIELD.Arguments|list, YIELD.ArgumentsKw|dict]
+    [RESULT, Session|id, CALL.Request|id, Details|dict]
+    [RESULT, Session|id, CALL.Request|id, Details|dict, YIELD.Arguments|list]
+    [RESULT, Session|id, CALL.Request|id, Details|dict, YIELD.Arguments|list, YIELD.ArgumentsKw|dict]
 
 #### `REGISTER`
 
-    [REGISTER, Request|id, Options|dict, Procedure|uri]
+    [REGISTER, Session|id, Request|id, Options|dict, Procedure|uri]
 
 #### `REGISTERED`
 
-	[REGISTERED, REGISTER.Request|id, Registration|id]
+	[REGISTERED, Session|id, REGISTER.Request|id, Registration|id]
 
 #### `UNREGISTER`
 
-    [UNREGISTER, Request|id, REGISTERED.Registration|id]
+    [UNREGISTER, Session|id, Request|id, REGISTERED.Registration|id]
 
 #### `UNREGISTERED`
 
-    [UNREGISTERED, UNREGISTER.Request|id]
+    [UNREGISTERED, Session|id, UNREGISTER.Request|id]
 
 #### `INVOCATION`
 
-    [INVOCATION, Request|id, REGISTERED.Registration|id, Details|dict]
-    [INVOCATION, Request|id, REGISTERED.Registration|id, Details|dict, CALL.Arguments|list]
-    [INVOCATION, Request|id, REGISTERED.Registration|id, Details|dict, CALL.Arguments|list, CALL.ArgumentsKw|dict]
+    [INVOCATION, Session|id, Request|id, REGISTERED.Registration|id, Details|dict]
+    [INVOCATION, Session|id, Request|id, REGISTERED.Registration|id, Details|dict, CALL.Arguments|list]
+    [INVOCATION, Session|id, Request|id, REGISTERED.Registration|id, Details|dict, CALL.Arguments|list, CALL.ArgumentsKw|dict]
 
 #### `YIELD`
 
-	[YIELD, INVOCATION.Request|id, Options|dict]
-    [YIELD, INVOCATION.Request|id, Options|dict, Arguments|list]
-    [YIELD, INVOCATION.Request|id, Options|dict, Arguments|list, ArgumentsKw|dict]
+	[YIELD, Session|id, INVOCATION.Request|id, Options|dict]
+    [YIELD, Session|id, INVOCATION.Request|id, Options|dict, Arguments|list]
+    [YIELD, Session|id, INVOCATION.Request|id, Options|dict, Arguments|list, ArgumentsKw|dict]
 
 #### `CANCEL`
 
-    [CANCEL, CALL.Request|id, Options|dict]
+    [CANCEL, Session|id, CALL.Request|id, Options|dict]
 
 #### `INTERRUPT`
 
-    [INTERRUPT, INVOCATION.Request|id, Options|dict]
+    [INTERRUPT, Session|id, INVOCATION.Request|id, Options|dict]
 
 
 ### Message Codes and Direction
